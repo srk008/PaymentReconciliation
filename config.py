@@ -1,25 +1,18 @@
+
 import mysql.connector
-from mysql.connector import Error, cursor
+import os
 
-# Database connection configuration
-db_config = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'admin',
-    'database': 'test'
-}
+# Get MySQL credentials from environment variables
+MYSQL_HOST = os.getenv("MYSQL_HOST", "127.0.0.1")
+MYSQL_USER = os.getenv("MYSQL_USER", "root")
+MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "root")
+MYSQL_DB = os.getenv("MYSQL_DB", "managementdb")
 
-# Sql connection function
+# Connect to MySQL
 def get_db_connection():
-    try:
-        connection = mysql.connector.connect(**db_config)
-        if connection.is_connected():
-            return connection
-    except Error as e:
-        # print(f"Error connecting to database: {e}")
-        return f'{e}'
-    # finally:
-    #     if cursor:
-    #         cursor.close()
-    #     if connection:
-    #         connection.close()
+    return mysql.connector.connect(
+        host=MYSQL_HOST,
+        user=MYSQL_USER,
+        password=MYSQL_PASSWORD,
+        database=MYSQL_DB
+    )
